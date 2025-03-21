@@ -36,7 +36,7 @@ def read_csv(filename: str) -> Dict[str, Dict]:
     data = {pos: [] for pos in POSITIONS}
     data['info'] = {}
     try:
-        with open(filename, 'r') as csvfile:
+       with open(filename, 'r', encoding='cp1252', errors='replace') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 name = row['Name']
@@ -44,7 +44,7 @@ def read_csv(filename: str) -> Dict[str, Dict]:
                 position = row['Position']
                 value = float(row['Price number'])
                 points = float(row['Points total'])
-                data['info'][sanitized_name] = {'value': value, 'points': points, 'position': position, 'original_name': name}
+                data['info'][sanitized_name] = {'value': value, 'points': points, 'position': position, 'original_name': name,}
                 if position in POSITIONS:
                     data[position].append(sanitized_name)
     except FileNotFoundError:
@@ -261,7 +261,7 @@ if __name__ == "__main__":
     parser.add_argument('--initial_team_file', type=str, default=INITIAL_TEAM_FILE, help='Initial team CSV file name')
     parser.add_argument('--output_dir', type=str, default=OUTPUT_DIR, help='Output directory for results')
     parser.add_argument('--max_value', type=float, default=50.0, help='Maximum allowed total value for a group')
-    parser.add_argument('--max_changes', type=int, default=3, help='Maximum number of changes allowed')
+    parser.add_argument('--max_changes', type=int, default=5, help='Maximum number of changes allowed')
     parser.add_argument('--force_replace', type=str, default="", help='Player to be forced replaced')
     args = parser.parse_args()
     main(args)

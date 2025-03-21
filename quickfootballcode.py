@@ -32,7 +32,7 @@ def read_csv(filename: str) -> Dict[str, Dict]:
     data = {pos: [] for pos in POSITIONS}
     data['info'] = {}
     try:
-        with open(filename, 'r') as csvfile:
+       with open(filename, 'r', encoding='cp1252', errors='replace') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 name = row['Name']
